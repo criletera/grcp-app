@@ -1,24 +1,28 @@
 from __future__ import print_function
+from fastapi import FastAPI
 
 import grpc
 import users_pb2
 import users_pb2_grpc
 
-import time
+from google.protobuf.json_format import MessageToDict
+
+app = FastAPI()
+
+@app.get("/")
+async def healthcheck():
+    return {"status": "OK"}
+
+@app.get("/message")
+async def getMessage():
+    print("Sending request to GRPC server")
+    with grpc.insecure_channel("grpc-server-service:50051") as channel:
+        stub = users_pb2_grpc.UsersStub(channel)
+        request = users_pb2.GetUsersResponse()
+        response = stub.GetUsers(request)
+    print("Message received from GRPC server:")
+    print(str(response.user))
+    return str(response.user)
 
 
-def run():
-    print("GRPC Client started")
-    while True:
-        print("GRPC Client waiting 10 second")
-        time.sleep(10)
-        print("GRPC Client sending request to server")
-        with grpc.insecure_channel("grpc-server-service:50051") as channel:
-            stub = users_pb2_grpc.UsersStub(channel)
-            request = users_pb2.GetUsersResponse()
-            response = stub.GetUsers(request)
-        print("GRPC Client message received:\n", response.user)
 
-
-if __name__ == "__main__":
-    run()

@@ -5,18 +5,22 @@ import users_pb2
 import users_pb2_grpc
 
 import time
+import random
+import names
 
 class Users(users_pb2_grpc.UsersServicer):
     def GetUsers(self, request, context):
         
         seconds = time.time()
         date = time.ctime(seconds)
+        id = random.randint(1, 100)
+        name = names.get_full_name()
         
         return users_pb2.GetUsersResponse(user=[
             users_pb2.User(
-                id='1',
-                name='Jonh Doe',
-                email='mahes@gmail.com',
+                id=str(id),
+                name=name,
+                email='test@grpcapp.com',
                 date=date
             )
         ])
