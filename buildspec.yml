@@ -4,7 +4,6 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws --version
       - REPOSITORY_URI=public.ecr.aws/h2v1o9z6
       - aws ecr-public get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - REPOSITORY_NAME=grpc-app
