@@ -14,8 +14,10 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_NAME/server:latest -f ./server/Dockerfile .
+      - docker tag $REPOSITORY_NAME/server:latest $REPOSITORY_URI/$REPOSITORY_NAME/server:latest
       - docker tag $REPOSITORY_NAME/server:latest $REPOSITORY_URI/$REPOSITORY_NAME/server:$IMAGE_TAG
       - docker build -t $REPOSITORY_NAME/client:latest -f ./client/Dockerfile .
+      - docker tag $REPOSITORY_NAME/client:latest $REPOSITORY_URI/$REPOSITORY_NAME/client:latest
       - docker tag $REPOSITORY_NAME/client:latest $REPOSITORY_URI/$REPOSITORY_NAME/client:$IMAGE_TAG
   post_build:
     commands:
