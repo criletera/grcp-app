@@ -9,12 +9,12 @@ import time
 
 def run():
     while True:
+        time.sleep(10)
         with grpc.insecure_channel("server:50051") as channel:
             stub = users_pb2_grpc.UsersStub(channel)
             request = users_pb2.GetUsersResponse()
             response = stub.GetUsers(request)
         print("GRPC received:\n", response.user)
-        time.sleep(5)
 
 
 if __name__ == "__main__":
