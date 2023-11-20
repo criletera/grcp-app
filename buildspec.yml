@@ -26,7 +26,7 @@ phases:
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/server:$IMAGE_TAG
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/client:latest
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/client:$IMAGE_TAG
-      - aws eks update-kubeconfig --region us-east-1 --name grpc_app_cluster
+      - aws eks update-kubeconfig --region us-east-1 --name grpc_app_cluster --role-arn arn:aws:iam::818157064519:role/service-role/codebuild-grpc-app-codebuild-service-role
       - kubectl apply -f ./kubernetes/service.yml
       - kubectl apply -f ./kubernetes/server.yml
       - kubectl apply -f ./kubernetes/client.yml
