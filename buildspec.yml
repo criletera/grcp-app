@@ -26,3 +26,9 @@ phases:
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/server:$IMAGE_TAG
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/client:latest
       - docker push $REPOSITORY_URI/$REPOSITORY_NAME/client:$IMAGE_TAG
+      - aws eks update-kubeconfig --region us-east-1 --name grpc_app_cluster
+      - kubectl apply -f ./kubernetes/service.yml
+      - kubectl apply -f ./kubernetes/server.yml
+      - kubectl apply -f ./kubernetes/client.yml
+      - kubectl rollout restart deployment/grpc-server-deployment
+      - kubectl rollout restart deployment/grpc-client-deployment

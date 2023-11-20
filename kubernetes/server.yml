@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-server-deployment
+  labels:
+    app: grpc-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-server
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+    spec:
+      containers:
+        - name: server
+          image: public.ecr.aws/h2v1o9z6/grpc-app/server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50051
+          
